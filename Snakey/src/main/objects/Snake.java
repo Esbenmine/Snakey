@@ -24,8 +24,8 @@ public class Snake extends Object {
 	
 	private boolean paused = false;
 	
-	private int movesPerSecond = 16;
-	
+	private int movesPerSecond = 10;
+		
 	/**
 	 * Counts amount of ticks since last move.
 	 */
@@ -60,10 +60,10 @@ public class Snake extends Object {
 		
 		counter+=counterIncrement;
 		if(counter >= 1) {
+			counter -= 1;
 			eatFood();
 			move();
 			checkDeath();
-			counter = 0;
 		}
 		
 	}
