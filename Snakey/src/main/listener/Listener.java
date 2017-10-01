@@ -1,8 +1,10 @@
 package main.listener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Listener implements KeyListener {
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+public class Listener implements EventHandler<KeyEvent> {
 	
 	public Key up = new Key();
 	public Key down = new Key();
@@ -10,32 +12,25 @@ public class Listener implements KeyListener {
 	public Key right = new Key();
 	public Key enter = new Key();
 	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		toogleKeys(e.getKeyCode(), true);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		toogleKeys(e.getKeyCode(), false);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-	
-	public void toogleKeys(int keyCode, boolean down) {
-		if (keyCode == KeyEvent.VK_UP) {
-			up.toogle(down);
-		} else if (keyCode == KeyEvent.VK_DOWN) {
-			this.down.toogle(down);
-		} else if (keyCode == KeyEvent.VK_RIGHT) {
-			right.toogle(down);
-		} else if (keyCode == KeyEvent.VK_LEFT) {
-			left.toogle(down);
-		} else if (keyCode == KeyEvent.VK_ENTER) {
-			enter.toogle(down);
+	public void toggleKeys(KeyCode keyCode, boolean down) {
+		switch (keyCode) {
+		case UP:
+			up.toggle(down);
+			break;
+		case DOWN:
+			this.down.toggle(down);
+			break;
+		case RIGHT:
+			right.toggle(down);
+			break;
+		case LEFT:
+			left.toggle(down);
+			break;
+		case ENTER:
+			enter.toggle(down);
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -47,7 +42,7 @@ public class Listener implements KeyListener {
 			
 		}
 		
-		public void toogle(boolean down) {
+		public void toggle(boolean down) {
 			isDown = down;
 		}
 		
@@ -55,6 +50,17 @@ public class Listener implements KeyListener {
 			return isDown;
 		}
 		
+	}
+
+
+	@Override
+	public void handle(KeyEvent event) {
+		
+		if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+			toggleKeys(event.getCode(), true);
+		} else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+			toggleKeys(event.getCode(), false);
+		}
 	}
 
 }

@@ -1,36 +1,49 @@
 package main.window;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import main.Game;
+import main.listener.Listener;
 
-public class Window extends JFrame {
-
-	private static final long serialVersionUID = -8255319694373975038L;
+public class Window extends Application {
 	
-	private int height, width;
+	private String title; 
 	
-	public Window(String title, int width, int height, Game game) {
-		super(title);
+	private Game game;
+	
+	public static final int WIDTH = 400, HEIGHT = 400;
+	
+	private double scale = 1.5d;
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle(title);
 		
-		this.height = height;
-		this.width = width;
+		Group root = new Group();
 		
-		game.setPreferredSize(new Dimension(width, height));
-		game.setMaximumSize(new Dimension(width, height));
-		game.setMinimumSize(new Dimension(width, height));
-		add(game);
+		game = new Game(WIDTH, HEIGHT, scale);
 		
-		setResizable(false);
+		root.getChildren().add(game);
 		
-		pack();
+		Scene scene = new Scene(root, WIDTH * scale, HEIGHT * scale);
+		Listener ls = new Listener();
+		primaryStage.sizeToScene();
 		
-		setLocationRelativeTo(null);
+		scene.setOnKeyPressed(ls);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-		setVisible(true);
+		primaryStage.centerOnScreen();
+		
+		primaryStage.show();
+		game.start();
+	}
+	
+	@Override
+	public void stop() throws Exception {
+		game.stop();
+		super.stop();
 	}
 	
 }

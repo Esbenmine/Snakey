@@ -1,7 +1,6 @@
 package main.objects;
-import java.awt.Color;
-import java.awt.Graphics2D;
-
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.Game;
 
 public class Food extends Object {
@@ -13,8 +12,8 @@ public class Food extends Object {
 
 	
 	@Override
-	public void render(Graphics2D g) {
-		g.setColor(Color.CYAN);
+	public void render(GraphicsContext g) {
+		g.setFill(Color.CYAN);
 		g.fillRect((int) x + 1, (int) y + 1, Game.TILE_SIZE - 2, Game.TILE_SIZE - 2);
 	}
 
